@@ -1,6 +1,6 @@
 # Project to learn about UUID and Soft Delete
 
-## Reference: 
+## UIID - Reference: 
 http://linqueta.com.br/rails/uuid/active_record/2019/05/24/rails_uuid_primary_key/
 <hr/>
 
@@ -79,3 +79,46 @@ class ApplicationRecord < ActiveRecord::Base
   default_scope { order(:created_at) }
 end
 ```
+## PARANOIA (Soft Delete) - References: 
+https://github.com/rubysherpas/paranoia
+https://gorails.com/episodes/soft-delete-with-paranoia (Video)
+<hr/>
+
+### Steps:
+1. After install `gem paranoia` and run `bundle install`, we'll create a migration
+`rails generate migration add_deleted_at_to_authors deleted_at:datetime:index`
+If don't appear like bellow, just add the lines =D
+```
+class AddDeletedAtToAuthors < ActiveRecord::Migration[7.0]
+  def change
+    add_column :authors, :deleted_at, :datetime
+    add_index :authors, :deleted_at
+  end
+end
+```
+Another way to add this collumn is insert the collumn `t.datetime :deleted_at, index: true`, in the migration to create add the follow line:
+```
+class CreateBooks < ActiveRecord::Migration[7.0]
+  def change
+    create_table :books, id: :uuid do |t|
+      t.string :title
+      t.references :author, null: false, foreign_key: true, type: :uuid
+      
+      t.datetime :deleted_at, index: true
+
+      t.timestamps
+    end
+  end
+end
+```
+### Feature
+After these settings, we can use all the methods that gem paranoia offer to us. To know more about the methods, visit [Paranoia Documentation](https://github.com/rubysherpas/paranoia#usage), but before...
+1. We need add a helper from Paranoia to lib works:
+```
+class Book < ApplicationRecord
+  acts_as_paranoid
+  
+  belongs_to :author
+end
+```
+For further informations, visit the [documentation](https://github.com/rubysherpas/paranoia).
