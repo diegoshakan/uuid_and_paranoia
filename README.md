@@ -81,6 +81,7 @@ end
 ```
 ## PARANOIA (Soft Delete) - References: 
 https://github.com/rubysherpas/paranoia
+
 https://gorails.com/episodes/soft-delete-with-paranoia (Video)
 <hr/>
 
