@@ -60,7 +60,7 @@ class CreateBook < ActiveRecord::Migration[5.2]
 end
 ```
 
-### Problem
+### Problem:
 Maybe your last data created not be the last in ActiveRecord because the new ID (UUID). Because is a string, so if you call `Author.last` maybe the last data is not called by ActiveRecord, so we can to solve this issue:
 
 Directly in model:
